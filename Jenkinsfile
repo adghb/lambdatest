@@ -17,7 +17,13 @@ node('master'){
     }
 
     stage('Push'){
-        sh "aws s3 cp ${commitID()}.zip s3://${bucket}"
+
+            withAWS(region:'ap-south-1',credentials:'awsCredentials') {
+//              s3Delete(bucket: 'adweb', path:'**/*')
+              s3Upload(bucket: 'adweb', file:'${commitID()}.zip', acl:'PublicRead');
+            }
+
+//        sh "aws s3 cp ${commitID()}.zip s3://${bucket}"
     }
 
     stage('Deploy'){
