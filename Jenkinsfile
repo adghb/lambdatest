@@ -27,6 +27,12 @@ withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 
 
 sh "aws s3 cp ${commitID()}.zip s3://${bucket}"
 }
+withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_Credentials',
+                        ACCESS_KEY: 'ACCESS_KEY', SECRET_KEY: 'SECRET_KEY']]) { sh "aws s3 cp ${commitID()}.zip s3://${bucket}" }
+
+
+withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_Credentials',
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID ', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) { sh "aws s3 cp ${commitID()}.zip s3://${bucket}" }
 
 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'awsCredentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']]) {
         AWS("--region=ap-south-1 s3 ls")
