@@ -22,7 +22,7 @@ node('master'){
 //              s3Delete(bucket: 'adweb', path:'**/*')
               s3Upload(bucket: 'adweb', workingDir:'build', includePathPattern:'**/*');
             }
-           withAws(credentialsId: 'awsCredentials',region: 'ap-south-1') {
+           withAWS(credentialsId: 'awsCredentials',region: 'ap-south-1') {
 
               sh "aws s3 cp ${commitID()}.zip s3://${bucket}"   
         }
