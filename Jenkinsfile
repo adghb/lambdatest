@@ -22,6 +22,12 @@ node('master'){
 //              s3Delete(bucket: 'adweb', path:'**/*')
               s3Upload(bucket: 'adweb', workingDir:'build', includePathPattern:'**/*');
             }
+
+withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'awsCredentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+//        AWS("--region=ap-south-1 s3 ls")
+sh "aws s3 cp ${commitID()}.zip s3://${bucket}"
+
+    }
            withAWS(credentialsId: 'awsCredentials',region: 'ap-south-1') {
 
               sh "aws s3 cp ${commitID()}.zip s3://${bucket}"   
