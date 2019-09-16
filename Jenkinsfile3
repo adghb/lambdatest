@@ -32,18 +32,19 @@ sh "aws s3 cp ${commitID()}.zip s3://${bucket}"
     stage('Deploy'){
 
         sh "sls deploy --stage prod --region ap-south-1"
-        sh "aws lambda update-function-code --function-name ${functionName} \
-                --s3-bucket ${bucket} \
-                --s3-key ${commitID()}.zip \
-                --region ${region}"
+//        sh "aws lambda update-function-code --function-name ${functionName} \
+//                --s3-bucket ${bucket} \
+//                --s3-key ${commitID()}.zip \
+//                --region ${region}"
     }
 
-    if (env.BRANCH_NAME == 'master') {
-        stage('Publish') {
-            sh "aws lambda publish-version --function-name ${functionName} \
-                    --region ${region}"
-        }
-    }
+//    if (env.BRANCH_NAME == 'master') {
+//        stage('Publish') {
+//            sh "aws lambda publish-version --function-name ${functionName} \
+//                    --region ${region}"
+//        }
+//    }
+
 }
 
 def commitID() {
